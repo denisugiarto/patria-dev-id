@@ -99,7 +99,11 @@ export const ui = {
     'contact.form.subject.speaker': 'Menjadi Speaker',
     'contact.form.subject.other': 'Lainnya',
     'contact.basecamp': 'Basecamp',
-    'contact.social': 'Follow Social Media'
+    'contact.social': 'Follow Social Media',
+
+    // Navigation
+    'nav.menu_open': 'Buka Menu',
+    'nav.menu_close': 'Tutup Menu'
   },
   en: {
     'nav.home': 'Home',
@@ -201,6 +205,8 @@ export const ui = {
     'contact.form.error': 'Failed to send message. Please try again later.',
     'contact.form.sending': 'Sending...',
     'contact.basecamp': 'Basecamp',
-    'contact.social': 'Follow Social Media'
+    'contact.social': 'Follow Social Media',
+    'nav.menu_open': 'Open Menu',
+    'nav.menu_close': 'Close Menu'
   },
 } as const;

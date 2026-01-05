@@ -52,12 +52,141 @@ const normalizedPathName = pathname.length > 1 && pathname.endsWith('/') ? pathn
         </Button>
       </div>
       
-      <!-- Mobile Menu Button (Simplified) -->
-      <button class="md:hidden text-secondary-trust">
+      <!-- Mobile Menu Button -->
+      <Button 
+        id="mobile-menu-btn"
+        variant="ghost"
+        class="md:hidden !p-2 text-secondary-trust"
+        aria-label={t('nav.menu_open')}
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+      >
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
               <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
           </svg>
-      </button>
+      </Button>
     </div>
   </div>
 </header>
+
+  <!-- Off-canvas Mobile Menu -->
+  <div 
+    id="mobile-menu-overlay" 
+    class="fixed inset-0 bg-black/50 z-[60] opacity-0 pointer-events-none transition-opacity duration-300 md:hidden backdrop-blur-sm"
+    aria-hidden="true"
+  ></div>
+
+  <aside 
+    id="mobile-menu" 
+    class="fixed top-0 right-0 z-[70] w-full h-full bg-white shadow-2xl transform translate-x-full transition-transform duration-300 ease-in-out md:hidden flex flex-col"
+    aria-label="Mobile Navigation"
+  >
+    <div class="p-4 flex items-center justify-between border-b border-gray-100">
+      <a href="/" class="flex items-center gap-2">
+        <Image src={logoPatria} alt="PatriaDev" class="w-8 h-8" />
+        <span class="text-xl font-headings font-bold text-secondary-trust">Patria Dev</span>
+      </a>
+      <Button
+        id="mobile-menu-close"
+        variant="ghost"
+        class="!p-2 text-gray-500 hover:text-red-500 hover:bg-red-50"
+        aria-label={t('nav.menu_close')}
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </Button>
+    </div>
+
+    <div class="flex-1 overflow-y-auto py-6 px-4 flex flex-col gap-6">
+      <nav class="flex flex-col gap-4">
+        {navLinks.map(link => {
+          // Handle language prefix
+          const href = lang === 'en' && link.href !== '/' 
+            ? `/en${link.href}` 
+            : lang === 'en' && link.href === '/'
+              ? '/en'
+              : link.href;
+
+          const isActive = href === '/' 
+            ? normalizedPathName === '/' 
+            : normalizedPathName.startsWith(href);
+          
+          return (
+            // @ts-ignore
+            <Button 
+              href={href} 
+              variant="ghost"
+              class={`w-full justify-start text-lg font-medium px-4 py-3 rounded-xl transition-all ${
+                isActive 
+                  ? "bg-primary/10 text-primary font-bold" 
+                  : "text-gray-600 hover:bg-gray-50 hover:text-primary"
+              }`}
+            >
+              {t(link.label as any)}
+            </Button>
+          );
+        })}
+      </nav>
+
+      <div class="mt-auto border-t border-gray-100 pt-6 space-y-6">
+        <div class="flex items-center justify-between px-2">
+          <span class="text-sm font-medium text-gray-500">Language</span>
+          <LanguageToggle />
+        </div>
+        
+        <Button href="/contact" block size="lg">
+          {t('nav.join')}
+        </Button>
+      </div>
+    </div>
+  </aside>
+
+<script>
+  const menuBtn = document.getElementById('mobile-menu-btn');
+  const closeBtn = document.getElementById('mobile-menu-close');
+  const menu = document.getElementById('mobile-menu');
+  const overlay = document.getElementById('mobile-menu-overlay');
+  const body = document.body;
+
+  let isMenuOpen = false;
+
+  function toggleMenu() {
+    isMenuOpen = !isMenuOpen;
+    
+    if (isMenuOpen) {
+      // Open
+      menu?.classList.remove('translate-x-full');
+      overlay?.classList.remove('opacity-0', 'pointer-events-none');
+      menuBtn?.setAttribute('aria-expanded', 'true');
+      body.style.overflow = 'hidden'; // Prevent scrolling
+      closeBtn?.focus(); // Move focus to close button
+    } else {
+      // Close
+      menu?.classList.add('translate-x-full');
+      overlay?.classList.add('opacity-0', 'pointer-events-none');
+      menuBtn?.setAttribute('aria-expanded', 'false');
+      body.style.overflow = '';
+      menuBtn?.focus(); // Return focus to trigger
+    }
+  }
+
+  menuBtn?.addEventListener('click', toggleMenu);
+  closeBtn?.addEventListener('click', toggleMenu);
+  overlay?.addEventListener('click', toggleMenu);
+
+  // Close on Escape key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && isMenuOpen) {
+      toggleMenu();
+    }
+  });
+
+  // Handle link clicks (close menu)
+  const mobileLinks = menu?.querySelectorAll('a');
+  mobileLinks?.forEach(link => {
+    link.addEventListener('click', () => {
+      if (isMenuOpen) toggleMenu();
+    });
+  });
+</script>
