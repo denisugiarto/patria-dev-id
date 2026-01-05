@@ -1,8 +1,7 @@
+import githubIcon from '../assets/icons/github.svg';
 import instagramIcon from '../assets/icons/instagram.svg';
-import twitterIcon from '../assets/icons/twitter.svg';
 import linkedinIcon from '../assets/icons/linkedin.svg';
 import youtubeIcon from '../assets/icons/youtube.svg';
-import githubIcon from '../assets/icons/github.svg';
 
 export const siteConfig = {
   name: "Patria Dev",

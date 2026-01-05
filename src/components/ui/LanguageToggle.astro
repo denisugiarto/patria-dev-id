@@ -39,19 +39,19 @@ const currentLang = getLangFromRequest(Astro);
   >
     <div class="py-1" role="none">
       <button
-        class="text-gray-700 w-full text-left px-4 py-2 text-sm hover:bg-gray-100 flex items-center gap-3"
+        class="text-gray-700 w-full text-left px-4 py-2 text-sm hover:bg-gray-100 flex items-center gap-3 lang-btn"
         role="menuitem"
         tabindex="-1"
-        onclick="changeLanguage('id')"
+        data-lang="id"
       >
         <Image src={flagID} alt="Indonesia" class="w-5 h-5 rounded-sm object-cover" />
         <span>Indonesia</span>
       </button>
       <button
-        class="text-gray-700 w-full text-left px-4 py-2 text-sm hover:bg-gray-100 flex items-center gap-3"
+        class="text-gray-700 w-full text-left px-4 py-2 text-sm hover:bg-gray-100 flex items-center gap-3 lang-btn"
         role="menuitem"
         tabindex="-1"
-        onclick="changeLanguage('en')"
+        data-lang="en"
       >
         <Image src={flagUS} alt="English" class="w-5 h-5 rounded-sm object-cover" />
         <span>English</span>
@@ -88,9 +88,14 @@ const currentLang = getLangFromRequest(Astro);
     }
   });
 
-  // Expose function to global scope for onclick handlers
-  window.changeLanguage = (lang: 'id' | 'en') => {
-    setLanguage(lang);
-    // Menu will close automatically because page reloads
-  };
+  // Handle language change
+  const langButtons = document.querySelectorAll('.lang-btn');
+  langButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const lang = btn.getAttribute('data-lang') as 'id' | 'en';
+      if (lang) {
+        setLanguage(lang);
+      }
+    });
+  });
 </script>

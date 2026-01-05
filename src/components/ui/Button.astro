@@ -1,30 +1,69 @@
 ---
-interface Props {
+import type { HTMLAttributes } from 'astro/types';
+
+interface Props extends HTMLAttributes<'button'>, HTMLAttributes<'a'> {
   href?: string;
-  variant?: 'primary' | 'secondary' | 'outline';
-  class?: string;
+  variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'danger';
+  size?: 'sm' | 'md' | 'lg';
+  loading?: boolean;
+  block?: boolean;
   type?: 'button' | 'submit' | 'reset';
-  [key: string]: any;
 }
 
-const { href, variant = 'primary', class: className, type = 'button', ...rest } = Astro.props;
+const { 
+  href, 
+  variant = 'primary', 
+  size = 'md', 
+  loading = false, 
+  block = false,
+  class: className, 
+  type = 'button',
+  disabled = false,
+  ...rest 
+} = Astro.props;
 
-const baseStyles = "px-8 py-4 rounded-full font-bold transition-all duration-300 inline-flex items-center justify-center";
+const baseStyles = "inline-flex items-center justify-center font-bold transition-all duration-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-60 disabled:pointer-events-none";
+
 const variants = {
-  primary: "bg-primary text-white shadow-lg shadow-primary/30 hover:shadow-primary/50 hover:-translate-y-1",
-  secondary: "bg-secondary-trust text-white hover:bg-opacity-90 shadow-lg hover:shadow-xl hover:-translate-y-1",
-  outline: "bg-white text-secondary-trust border border-gray-200 hover:bg-gray-50 hover:border-gray-300"
+  primary: "bg-primary text-white shadow-lg shadow-primary/30 hover:bg-primary/90 hover:shadow-primary/50 hover:-translate-y-1 focus:ring-primary border border-transparent",
+  secondary: "bg-secondary-trust text-white shadow-lg hover:shadow-xl hover:bg-opacity-90 hover:-translate-y-1 focus:ring-secondary-trust border border-transparent",
+  outline: "bg-white text-secondary-trust border border-gray-200 hover:bg-gray-50 hover:border-gray-300 focus:ring-gray-200",
+  ghost: "bg-transparent text-gray-600 hover:bg-gray-100 hover:text-gray-900 border border-transparent shadow-none",
+  danger: "bg-red-600 text-white shadow-lg shadow-red-600/30 hover:bg-red-700 hover:-translate-y-1 focus:ring-red-600 border border-transparent"
 };
 
-const styles = `${baseStyles} ${variants[variant]} ${className || ''}`;
+const sizes = {
+  sm: "px-4 py-2 text-sm",
+  md: "px-6 py-3 text-base",
+  lg: "px-8 py-4 text-lg"
+};
+
+const widthStyles = block ? "w-full" : "";
+
+const styles = [
+  baseStyles,
+  variants[variant],
+  sizes[size],
+  widthStyles,
+  className
+].filter(Boolean).join(" ");
+
+const Tag = href ? 'a' : 'button';
 ---
 
-{href ? (
-  <a href={href} class={styles} {...rest}>
-    <slot />
-  </a>
-) : (
-  <button type={type} class={styles} {...rest}>
-    <slot />
-  </button>
-)}
+<Tag 
+  href={href} 
+  type={!href ? type : undefined} 
+  class={styles} 
+  disabled={loading || disabled}
+  aria-busy={loading}
+  {...rest}
+>
+  {loading && (
+    <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-current" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+      <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+      <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+    </svg>
+  )}
+  <slot />
+</Tag>

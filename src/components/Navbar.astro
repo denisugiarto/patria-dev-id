@@ -2,6 +2,7 @@
 import { navLinks } from '../data/site';
 import { getLangFromRequest, useTranslations } from '../i18n/utils';
 import LanguageToggle from './ui/LanguageToggle.astro';
+import Button from './ui/Button.astro';
 import { Image } from 'astro:assets';
 import logoPatria from '../assets/logo-patria-dev.png';
 
@@ -21,13 +22,20 @@ const normalizedPathName = pathname.length > 1 && pathname.endsWith('/') ? pathn
     
     <nav class="hidden md:flex gap-8 items-center">
       {navLinks.map(link => {
-        const isActive = link.href === '/' 
+        // Handle language prefix
+        const href = lang === 'en' && link.href !== '/' 
+          ? `/en${link.href}` 
+          : lang === 'en' && link.href === '/'
+            ? '/en'
+            : link.href;
+
+        const isActive = href === '/' 
           ? normalizedPathName === '/' 
-          : normalizedPathName.startsWith(link.href);
+          : normalizedPathName.startsWith(href);
         
         return (
           // @ts-ignore
-          <a href={link.href} class={`font-medium transition-colors relative group ${isActive ? "text-primary" : "text-text-main hover:text-primary"}`}>
+          <a href={href} class={`font-medium transition-colors relative group ${isActive ? "text-primary" : "text-text-main hover:text-primary"}`}>
             {t(link.label as any)}
             <span class={`absolute -bottom-1 left-0 h-0.5 bg-primary transition-all duration-300 ${isActive ? "w-full" : "w-0 group-hover:w-full"}`}></span>
           </a>
@@ -38,9 +46,11 @@ const normalizedPathName = pathname.length > 1 && pathname.endsWith('/') ? pathn
     </nav>
 
     <div class="flex items-center gap-4">
-      <a href="/contact" class="hidden md:block px-5 py-2 bg-primary text-white rounded-full font-medium hover:bg-primary-light transition-colors shadow-lg shadow-primary/20 hover:shadow-primary/40 transform hover:-translate-y-0.5 transition-all">
-        {t('nav.join')}
-      </a>
+      <div class="hidden md:block">
+        <Button href="/contact" size="sm">
+          {t('nav.join')}
+        </Button>
+      </div>
       
       <!-- Mobile Menu Button (Simplified) -->
       <button class="md:hidden text-secondary-trust">

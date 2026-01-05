@@ -45,6 +45,8 @@ export const ui = {
     'upcoming.desc': 'Jangan lewatkan kesempatan belajar langsung dari ahlinya.',
     'upcoming.cta': 'Lihat Semua Event',
     'upcoming.register': 'Daftar Sekarang (Gratis)',
+    
+    'event.completed': 'Selesai',
     'event.title': 'Kalender Kegiatan',
     'event.desc': 'Temukan kegiatan yang sesuai dengan minatmu. Dari meetup santai hingga kompetisi coding yang menantang.',
     'event.register': 'Daftar',
@@ -134,10 +136,13 @@ export const ui = {
     'stats.event': 'Events per Year',
     'stats.speaker': 'Local Speakers',
     'stats.free': 'Free',
+
     'upcoming.title': 'Upcoming Events',
     'upcoming.desc': 'Don\'t miss the chance to learn directly from experts.',
     'upcoming.cta': 'View All Events',
     'upcoming.register': 'Register Now (Free)',
+    
+    'event.completed': 'Completed',    
     'event.title': 'Event Calendar',
     'event.desc': 'Find activities that match your interests. From casual meetups to challenging coding competitions.',
     'event.register': 'Register',
