@@ -1,0 +1,27 @@
+---
+interface Props {
+  id?: string;
+  class?: string;
+  bg?: 'white' | 'surface' | 'background' | 'secondary';
+  container?: boolean;
+}
+
+const { id, class: className, bg = 'white', container = true } = Astro.props;
+
+const bgColors = {
+  white: "bg-white",
+  surface: "bg-surface",
+  background: "bg-background",
+  secondary: "bg-secondary-trust text-white"
+};
+---
+
+<section id={id} class={`${bgColors[bg]} ${className || ''}`}>
+  {container ? (
+    <div class="container mx-auto px-4">
+      <slot />
+    </div>
+  ) : (
+    <slot />
+  )}
+</section>

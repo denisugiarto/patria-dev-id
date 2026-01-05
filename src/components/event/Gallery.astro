@@ -1,0 +1,38 @@
+---
+import { galleryImages } from '../../data/gallery';
+import Section from '../ui/Section.astro';
+import { getLangFromRequest, useTranslations } from '../../i18n/utils';
+
+const lang = getLangFromRequest(Astro);
+const t = useTranslations(lang);
+---
+
+<Section id="gallery" bg="surface" class="py-20 overflow-hidden">
+  <div class="text-center mb-12">
+    <h2 class="text-3xl font-headings font-bold text-secondary-trust mb-4">{t('gallery.title')}</h2>
+    <p class="text-gray-600">{t('gallery.desc')}</p>
+  </div>
+  
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 gallery-grid">
+    {galleryImages.map((img, index) => (
+      <button 
+        class="gallery-item relative group overflow-hidden rounded-2xl h-64 cursor-pointer w-full focus:outline-none focus:ring-4 focus:ring-primary/50"
+        data-index={index}
+        data-src={img}
+        aria-label={`${t('gallery.view')} ${index + 1}`}
+      >
+        <img 
+          src={img} 
+          alt={`Gallery ${index + 1}`} 
+          loading="lazy"
+          class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+        />
+        <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+          <div class="text-white font-bold translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+            {t('gallery.view')}
+          </div>
+        </div>
+      </button>
+    ))}
+  </div>
+</Section>

@@ -1,0 +1,61 @@
+---
+import Section from '../ui/Section.astro';
+import { getLangFromRequest, useTranslations } from '../../i18n/utils';
+
+const lang = getLangFromRequest(Astro);
+const t = useTranslations(lang);
+---
+
+<Section id="upcoming" class="py-24">
+  <div class="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
+    <div>
+      <h2 class="text-3xl lg:text-4xl font-headings font-bold text-secondary-trust mb-4">{t('upcoming.title')}</h2>
+      <p class="text-gray-600">{t('upcoming.desc')}</p>
+    </div>
+    <a href="/event" class="text-primary font-bold hover:text-primary-light flex items-center gap-2 group">
+      {t('upcoming.cta')}
+      <span class="group-hover:translate-x-1 transition-transform">→</span>
+    </a>
+  </div>
+  
+  <div class="bg-white rounded-3xl overflow-hidden shadow-xl border border-gray-100 grid md:grid-cols-2 group hover:shadow-2xl transition-all duration-300 upcoming-card">
+    <div class="relative h-64 md:h-auto overflow-hidden">
+      <div class="absolute inset-0 bg-primary/20 group-hover:bg-transparent transition-colors z-10"></div>
+      <img 
+        src="https://images.unsplash.com/photo-1543269865-cbf427effbad?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+        alt="Workshop React" 
+        class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+      />
+      <div class="absolute top-4 left-4 bg-white/90 backdrop-blur px-4 py-2 rounded-lg z-20 font-bold text-secondary-trust text-center shadow-sm">
+        <span class="block text-2xl">12</span>
+        <span class="block text-xs uppercase tracking-wider">Jan</span>
+      </div>
+    </div>
+    <div class="p-8 md:p-12 flex flex-col justify-center">
+      <div class="inline-block px-3 py-1 rounded-full bg-blue-100 text-blue-600 text-xs font-bold mb-4 w-fit">
+        WORKSHOP
+      </div>
+      <h3 class="text-2xl md:text-3xl font-bold text-secondary-trust mb-4">
+        Deep Dive into Astro Build 5.0
+      </h3>
+      <p class="text-gray-600 mb-6">
+        Pelajari cara membangun website super cepat dengan Astro terbaru. Bersama speaker expert dari komunitas.
+      </p>
+      
+      <div class="space-y-3 mb-8 text-sm text-gray-500">
+        <div class="flex items-center gap-3">
+          <svg class="w-5 h-5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+          09:00 - 12:00 WIB
+        </div>
+        <div class="flex items-center gap-3">
+          <svg class="w-5 h-5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+          Creative Hub Blitar
+        </div>
+      </div>
+      
+      <button class="w-full py-4 rounded-xl bg-secondary-trust text-white font-bold hover:bg-opacity-90 transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+        {t('upcoming.register')}
+      </button>
+    </div>
+  </div>
+</Section>

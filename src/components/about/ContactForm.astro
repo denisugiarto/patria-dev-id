@@ -1,0 +1,204 @@
+---
+import { siteConfig, socialLinks } from '../../data/site';
+import Section from '../ui/Section.astro';
+import { getLangFromRequest, useTranslations } from '../../i18n/utils';
+import { Image } from 'astro:assets';
+
+const lang = getLangFromRequest(Astro);
+const t = useTranslations(lang);
+---
+
+<Section id="contact" bg="surface" class="py-24 relative">
+  <div class="absolute left-0 top-0 w-1/3 h-full bg-primary/5 hidden lg:block"></div>
+  
+  <div class="bg-white rounded-3xl shadow-2xl overflow-hidden flex flex-col lg:flex-row max-w-5xl mx-auto border border-gray-100 contact-container">
+    
+    <!-- Info Side -->
+    <div class="lg:w-2/5 bg-secondary-trust p-12 text-white relative overflow-hidden">
+      <div class="absolute -right-10 -bottom-10 w-64 h-64 bg-primary/20 rounded-full blur-3xl"></div>
+      <div class="absolute -left-10 -top-10 w-40 h-40 bg-accent-joy/20 rounded-full blur-2xl"></div>
+      
+      <h3 class="text-2xl font-bold mb-6 font-headings relative z-10">{t('contact.title')}</h3>
+      <p class="text-gray-300 mb-8 relative z-10">
+        {t('contact.desc')}
+      </p>
+      
+      <div class="space-y-6 relative z-10">
+        <div class="flex items-start gap-4">
+          <div class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center shrink-0">
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+          </div>
+          <div>
+            <p class="font-bold text-sm text-gray-400">{t('contact.form.email')}</p>
+            <p>{siteConfig.email}</p>
+          </div>
+        </div>
+        
+        {siteConfig.address && (
+        <div class="flex items-start gap-4">
+          <div class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center shrink-0">
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+          </div>
+          <div>
+            <p class="font-bold text-sm text-gray-400">{t('contact.basecamp')}</p>
+            <p>{siteConfig.address}</p>
+          </div>
+        </div>
+        )}
+      </div>
+      
+      <div class="mt-12">
+          <p class="text-sm text-gray-400 mb-4">{t('contact.social')}</p>
+          <div class="flex gap-4">
+            {socialLinks.map(social => (
+              <a 
+                href={social.href} 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                class="w-10 h-10 rounded-full bg-white/80 flex items-center justify-center hover:bg-primary transition-all duration-300 group"
+                aria-label={social.platform}
+                title={social.platform}
+              >
+                <Image 
+                  src={social.icon} 
+                  alt={social.platform} 
+                  class="w-5 h-5 text-white group-hover:scale-110 transition-transform" 
+                />
+              </a>
+            ))}
+          </div>
+      </div>
+    </div>
+    
+    <!-- Form Side -->
+    <div class="lg:w-3/5 p-12 bg-white">
+      <h3 class="text-2xl font-bold text-secondary-trust mb-6">{t('contact.form.title')}</h3>
+      
+      <form class="space-y-6" id="contact-form">
+        <div class="grid md:grid-cols-2 gap-6">
+          <div class="space-y-2">
+            <label class="text-sm font-bold text-gray-700">{t('contact.form.name')}</label>
+            <input type="text" name="name" required class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all" placeholder="John Doe" />
+          </div>
+          <div class="space-y-2">
+            <label class="text-sm font-bold text-gray-700">{t('contact.form.email')}</label>
+            <input type="email" name="email" required class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all" placeholder="john@example.com" />
+          </div>
+        </div>
+        
+        <div class="space-y-2">
+          <label class="text-sm font-bold text-gray-700">{t('contact.form.subject')}</label>
+          <select name="subject" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all bg-white">
+            <option>{t('contact.form.subject.general')}</option>
+            <option>{t('contact.form.subject.partnership')}</option>
+            <option>{t('contact.form.subject.speaker')}</option>
+            <option>{t('contact.form.subject.other')}</option>
+          </select>
+        </div>
+        
+        <div class="space-y-2">
+          <label class="text-sm font-bold text-gray-700">{t('contact.form.message')}</label>
+          <textarea name="message" required rows="4" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all" placeholder={t('contact.form.placeholder')}></textarea>
+        </div>
+        
+        <div id="form-message" class="hidden rounded-lg p-4 text-sm font-medium"></div>
+
+        <button type="submit" id="submit-btn" class="w-full py-4 bg-primary text-white font-bold rounded-xl hover:bg-primary-light transition-all shadow-lg shadow-primary/20 hover:shadow-primary/40 transform hover:-translate-y-1 disabled:opacity-50 disabled:cursor-not-allowed">
+          {t('contact.form.submit')}
+        </button>
+      </form>
+    </div>
+    
+  </div>
+</Section>
+
+<script>
+  import { ui, defaultLang } from '../../i18n/ui';
+  import { getLangFromRequest } from '../../i18n/utils';
+
+  // Helper to get translation client-side
+  // Note: This is a simplified version since we can't easily share the exact same utils in client script tag
+  // We can pass the current lang messages as a data attribute or JSON script if needed.
+  // For simplicity, we will hardcode the logic to read from DOM or use simple english/indonesian check
+  
+  const form = document.getElementById('contact-form') as HTMLFormElement;
+  const messageDiv = document.getElementById('form-message');
+  const submitBtn = document.getElementById('submit-btn') as HTMLButtonElement;
+  
+  // Get messages from data attributes or predefined object
+  // Since we are in an astro script tag, we can output the messages here
+  const messages = {
+    success: {
+      id: 'Pesan berhasil dikirim! Kami akan segera menghubungi Anda.',
+      en: 'Message sent successfully! We will contact you soon.'
+    },
+    error: {
+      id: 'Gagal mengirim pesan. Silakan coba lagi nanti.',
+      en: 'Failed to send message. Please try again later.'
+    },
+    sending: {
+      id: 'Mengirim...',
+      en: 'Sending...'
+    },
+    defaultBtn: {
+      id: 'Kirim Pesan',
+      en: 'Send Message'
+    }
+  };
+
+  // Determine language from HTML lang attribute
+  const currentLang = document.documentElement.lang === 'en' ? 'en' : 'id';
+
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    // Reset message
+    if (messageDiv) {
+      messageDiv.classList.add('hidden');
+      messageDiv.classList.remove('bg-green-100', 'text-green-700', 'bg-red-100', 'text-red-700');
+    }
+
+    // Set loading state
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.textContent = messages.sending[currentLang];
+    }
+
+    const formData = new FormData(form);
+
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        body: formData,
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        // Success
+        if (messageDiv) {
+          messageDiv.textContent = messages.success[currentLang];
+          messageDiv.classList.remove('hidden');
+          messageDiv.classList.add('bg-green-100', 'text-green-700');
+        }
+        form.reset();
+      } else {
+        // Error from server
+        throw new Error(data.message || 'Something went wrong');
+      }
+    } catch (error) {
+      // Network or other error
+      if (messageDiv) {
+        messageDiv.textContent = messages.error[currentLang];
+        messageDiv.classList.remove('hidden');
+        messageDiv.classList.add('bg-red-100', 'text-red-700');
+      }
+    } finally {
+      // Reset button
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = messages.defaultBtn[currentLang];
+      }
+    }
+  });
+</script>

@@ -1,0 +1,53 @@
+---
+import { navLinks } from '../data/site';
+import { getLangFromRequest, useTranslations } from '../i18n/utils';
+import LanguageToggle from './ui/LanguageToggle.astro';
+import { Image } from 'astro:assets';
+import logoPatria from '../assets/logo-patria-dev.png';
+
+const lang = getLangFromRequest(Astro);
+const t = useTranslations(lang);
+
+const pathname = Astro.url.pathname;
+const normalizedPathName = pathname.length > 1 && pathname.endsWith('/') ? pathname.slice(0, -1) : pathname;
+---
+
+<header class="fixed w-full top-0 z-50 bg-surface/80 backdrop-blur-md border-b border-gray-100 transition-all duration-300" id="navbar">
+  <div class="container mx-auto px-4 h-16 flex items-center justify-between">
+    <a href="/" class="text-2xl font-headings font-bold text-primary tracking-tight flex items-center gap-2">
+      <Image src={logoPatria} alt="PatriaDev" class="w-8 h-8" />
+      <span class="text-secondary-trust">Patria Dev</span>
+    </a>
+    
+    <nav class="hidden md:flex gap-8 items-center">
+      {navLinks.map(link => {
+        const isActive = link.href === '/' 
+          ? normalizedPathName === '/' 
+          : normalizedPathName.startsWith(link.href);
+        
+        return (
+          // @ts-ignore
+          <a href={link.href} class={`font-medium transition-colors relative group ${isActive ? "text-primary" : "text-text-main hover:text-primary"}`}>
+            {t(link.label as any)}
+            <span class={`absolute -bottom-1 left-0 h-0.5 bg-primary transition-all duration-300 ${isActive ? "w-full" : "w-0 group-hover:w-full"}`}></span>
+          </a>
+        );
+      })}
+      
+      <LanguageToggle />
+    </nav>
+
+    <div class="flex items-center gap-4">
+      <a href="/contact" class="hidden md:block px-5 py-2 bg-primary text-white rounded-full font-medium hover:bg-primary-light transition-colors shadow-lg shadow-primary/20 hover:shadow-primary/40 transform hover:-translate-y-0.5 transition-all">
+        {t('nav.join')}
+      </a>
+      
+      <!-- Mobile Menu Button (Simplified) -->
+      <button class="md:hidden text-secondary-trust">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+          </svg>
+      </button>
+    </div>
+  </div>
+</header>

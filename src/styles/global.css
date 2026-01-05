@@ -1,0 +1,14 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #21b7fc; /* Blue from logo */
+  --color-primary-light: #64dfff; /* Lighter blue */
+  --color-secondary-trust: #152960; /* Dark Blue from logo */
+  --color-accent-joy: #FFC107; /* Yellow/Gold accent */
+  --color-background: #F8FAFC;
+  --color-surface: #FFFFFF;
+  --color-text-main: #334155;
+
+  --font-headings: "Plus Jakarta Sans", sans-serif;
+  --font-body: "Inter", sans-serif;
+}

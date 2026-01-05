@@ -1,0 +1,160 @@
+<div id="lightbox" class="fixed inset-0 z-[100] hidden opacity-0 transition-opacity duration-300" aria-modal="true" role="dialog">
+  <!-- Backdrop -->
+  <div class="absolute inset-0 bg-black/90 backdrop-blur-sm" id="lightbox-backdrop"></div>
+  
+  <!-- Controls -->
+  <div class="absolute top-4 right-4 z-10 flex gap-4">
+    <div class="bg-black/50 text-white px-4 py-2 rounded-full text-sm font-medium backdrop-blur-md" id="lightbox-counter">
+      1 / 1
+    </div>
+    <button id="lightbox-close" class="bg-white/10 hover:bg-white/20 text-white p-2 rounded-full transition-colors backdrop-blur-md" aria-label="Tutup">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
+  </div>
+
+  <!-- Main Content -->
+  <div class="absolute inset-0 flex items-center justify-center p-4">
+    <button id="lightbox-prev" class="absolute left-4 z-10 bg-white/10 hover:bg-white/20 text-white p-3 rounded-full transition-colors backdrop-blur-md hidden md:flex" aria-label="Foto Sebelumnya">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+      </svg>
+    </button>
+
+    <div class="relative w-full max-w-6xl max-h-[90vh] flex items-center justify-center overflow-hidden">
+      <img id="lightbox-image" src="" alt="Fullscreen Preview" class="max-w-full max-h-[90vh] object-contain transition-transform duration-300 scale-100" />
+    </div>
+
+    <button id="lightbox-next" class="absolute right-4 z-10 bg-white/10 hover:bg-white/20 text-white p-3 rounded-full transition-colors backdrop-blur-md hidden md:flex" aria-label="Foto Selanjutnya">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+      </svg>
+    </button>
+  </div>
+
+  <!-- Bottom Controls (Zoom) -->
+  <div class="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex gap-4">
+    <button id="lightbox-zoom-out" class="bg-white/10 hover:bg-white/20 text-white p-3 rounded-full transition-colors backdrop-blur-md" aria-label="Zoom Out">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607zM10.5 7.5v6m3-3h-6" />
+      </svg>
+    </button>
+    <button id="lightbox-zoom-in" class="bg-white/10 hover:bg-white/20 text-white p-3 rounded-full transition-colors backdrop-blur-md" aria-label="Zoom In">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607zM10.5 7.5v6m-3 0h6" />
+      </svg>
+    </button>
+  </div>
+</div>
+
+<script>
+  const galleryButtons = document.querySelectorAll('.gallery-item');
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImage = document.getElementById('lightbox-image') as HTMLImageElement;
+  const lightboxCounter = document.getElementById('lightbox-counter');
+  const lightboxClose = document.getElementById('lightbox-close');
+  const lightboxBackdrop = document.getElementById('lightbox-backdrop');
+  const lightboxPrev = document.getElementById('lightbox-prev');
+  const lightboxNext = document.getElementById('lightbox-next');
+  const lightboxZoomIn = document.getElementById('lightbox-zoom-in');
+  const lightboxZoomOut = document.getElementById('lightbox-zoom-out');
+
+  let currentIndex = 0;
+  let currentZoom = 1;
+  const images = Array.from(galleryButtons).map(btn => btn.getAttribute('data-src'));
+
+  function updateLightbox() {
+    if (!lightboxImage || !lightboxCounter) return;
+    
+    // Fade out slightly
+    lightboxImage.style.opacity = '0.5';
+    
+    setTimeout(() => {
+      lightboxImage.src = images[currentIndex] || '';
+      lightboxCounter.textContent = `${currentIndex + 1} / ${images.length}`;
+      
+      // Reset zoom
+      currentZoom = 1;
+      updateZoom();
+      
+      // Fade in
+      lightboxImage.style.opacity = '1';
+    }, 150);
+  }
+
+  function openLightbox(index: number) {
+    if (!lightbox) return;
+    currentIndex = index;
+    updateLightbox();
+    
+    lightbox.classList.remove('hidden');
+    // Force reflow
+    void lightbox.offsetWidth; 
+    lightbox.classList.remove('opacity-0');
+    
+    document.body.style.overflow = 'hidden'; // Prevent background scrolling
+  }
+
+  function closeLightbox() {
+    if (!lightbox) return;
+    lightbox.classList.add('opacity-0');
+    
+    setTimeout(() => {
+      lightbox.classList.add('hidden');
+      document.body.style.overflow = '';
+    }, 300);
+  }
+
+  function nextImage() {
+    currentIndex = (currentIndex + 1) % images.length;
+    updateLightbox();
+  }
+
+  function prevImage() {
+    currentIndex = (currentIndex - 1 + images.length) % images.length;
+    updateLightbox();
+  }
+
+  function updateZoom() {
+    if (!lightboxImage) return;
+    lightboxImage.style.transform = `scale(${currentZoom})`;
+  }
+
+  function zoomIn() {
+    if (currentZoom < 3) {
+      currentZoom += 0.5;
+      updateZoom();
+    }
+  }
+
+  function zoomOut() {
+    if (currentZoom > 0.5) {
+      currentZoom -= 0.5;
+      updateZoom();
+    }
+  }
+
+  // Event Listeners
+  galleryButtons.forEach((btn, index) => {
+    btn.addEventListener('click', () => openLightbox(index));
+  });
+
+  lightboxClose?.addEventListener('click', closeLightbox);
+  lightboxBackdrop?.addEventListener('click', closeLightbox);
+  lightboxPrev?.addEventListener('click', (e) => { e.stopPropagation(); prevImage(); });
+  lightboxNext?.addEventListener('click', (e) => { e.stopPropagation(); nextImage(); });
+  lightboxZoomIn?.addEventListener('click', (e) => { e.stopPropagation(); zoomIn(); });
+  lightboxZoomOut?.addEventListener('click', (e) => { e.stopPropagation(); zoomOut(); });
+
+  // Keyboard navigation
+  document.addEventListener('keydown', (e) => {
+    if (lightbox?.classList.contains('hidden')) return;
+
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowRight') nextImage();
+    if (e.key === 'ArrowLeft') prevImage();
+    if (e.key === '+' || e.key === '=') zoomIn();
+    if (e.key === '-') zoomOut();
+  });
+</script>

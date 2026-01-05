@@ -1,0 +1,84 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Hero from '../components/home/Hero.astro';
+import Mission from '../components/home/Mission.astro';
+import Stats from '../components/home/Stats.astro';
+import UpcomingEvent from '../components/home/UpcomingEvent.astro';
+import { getTitle } from '../utils/title-manager';
+
+const pageTitle = getTitle('home');
+---
+
+<Layout title={pageTitle}>
+  <Hero />
+  <Mission />
+  <Stats />
+  <UpcomingEvent />
+</Layout>
+
+<script>
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+  
+  gsap.registerPlugin(ScrollTrigger);
+  
+  // Hero Animations
+  gsap.from(".hero-content > *", {
+    y: 30,
+    opacity: 0,
+    duration: 1,
+    stagger: 0.2,
+    ease: "power3.out"
+  });
+  
+  gsap.from(".hero-image", {
+    x: 30,
+    opacity: 0,
+    duration: 1,
+    delay: 0.5,
+    ease: "power3.out"
+  });
+
+  // Mission Cards Animation
+  gsap.utils.toArray(".mission-card").forEach((card: any, i) => {
+    gsap.from(card, {
+      scrollTrigger: {
+        trigger: card,
+        start: "top bottom-=100",
+        toggleActions: "play none none reverse"
+      },
+      y: 50,
+      opacity: 0,
+      duration: 0.8,
+      delay: i * 0.2,
+      ease: "power3.out"
+    });
+  });
+  
+  // Stats Counter Animation
+  gsap.utils.toArray(".stat-item").forEach((item: any) => {
+    gsap.from(item, {
+      scrollTrigger: {
+        trigger: item,
+        start: "top bottom-=50",
+        toggleActions: "play none none reverse"
+      },
+      scale: 0.5,
+      opacity: 0,
+      duration: 0.5,
+      ease: "back.out(1.7)"
+    });
+  });
+  
+  // Upcoming Event Animation
+  gsap.from(".upcoming-card", {
+    scrollTrigger: {
+      trigger: ".upcoming-card",
+      start: "top bottom-=100",
+    },
+    y: 50,
+    opacity: 0,
+    duration: 1,
+    ease: "power3.out"
+  });
+</script>

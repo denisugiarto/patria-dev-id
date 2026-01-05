@@ -1,0 +1,38 @@
+[
+  {
+    "id": "home",
+    "text": {
+      "id": "Beranda | Patria Dev Community",
+      "en": "Home | Patria Dev Community"
+    },
+    "metadata": {
+      "createdAt": "2025-01-04T00:00:00Z",
+      "updatedAt": "2025-01-04T00:00:00Z",
+      "author": "System"
+    }
+  },
+  {
+    "id": "event",
+    "text": {
+      "id": "Event | Patria Dev Community",
+      "en": "Events | Patria Dev Community"
+    },
+    "metadata": {
+      "createdAt": "2025-01-04T00:00:00Z",
+      "updatedAt": "2025-01-04T00:00:00Z",
+      "author": "System"
+    }
+  },
+  {
+    "id": "about",
+    "text": {
+      "id": "Tentang & Kontak | Patria Dev Community",
+      "en": "About & Contact | Patria Dev Community"
+    },
+    "metadata": {
+      "createdAt": "2025-01-04T00:00:00Z",
+      "updatedAt": "2025-01-04T00:00:00Z",
+      "author": "System"
+    }
+  }
+]

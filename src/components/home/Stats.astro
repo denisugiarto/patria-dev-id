@@ -1,0 +1,29 @@
+---
+import Section from '../ui/Section.astro';
+import { siteConfig } from '../../data/site';
+import { getLangFromRequest, useTranslations } from '../../i18n/utils';
+
+const lang = getLangFromRequest(Astro);
+const t = useTranslations(lang);
+
+const stats = [
+  { number: siteConfig.profile.memberCount, label: t('stats.member') },
+  { number: siteConfig.profile.eventsPerYear, label: t('stats.event') },
+  { number: siteConfig.profile.localSpeakers, label: t('stats.speaker') },
+  { number: siteConfig.profile.cost, label: t('stats.free') }
+];
+---
+
+<Section id="stats" bg="secondary" class="py-20 relative overflow-hidden">
+  <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
+  <div class="relative z-10">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+      {stats.map((stat) => (
+        <div class="stat-item p-4">
+          <div class="text-4xl lg:text-5xl font-bold text-primary mb-2 font-headings">{stat.number}</div>
+          <div class="text-gray-300 font-medium">{stat.label}</div>
+        </div>
+      ))}
+    </div>
+  </div>
+</Section>
