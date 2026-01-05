@@ -1,0 +1,46 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ContactForm from '../../components/about/ContactForm.astro';
+import { getTitle } from '../../utils/title-manager';
+import { getLangFromRequest, useTranslations } from '../../i18n/utils';
+import PageHeader from '../../components/ui/PageHeader.astro';
+
+export async function getStaticPaths() {
+  return [
+    { params: { lang: undefined } },
+    { params: { lang: 'en' } },
+  ];
+}
+
+const lang = getLangFromRequest(Astro as any);
+const t = useTranslations(lang);
+const pageTitle = getTitle('contact');
+---
+
+<Layout title={pageTitle}>
+  <PageHeader 
+    title={t('contact.title')} 
+    description={t('contact.desc')} 
+  />
+  <ContactForm />
+</Layout>
+
+<script>
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+  
+  gsap.registerPlugin(ScrollTrigger);
+
+  // Contact Form
+  gsap.from(".contact-container", {
+    scrollTrigger: {
+      trigger: ".contact-container",
+      start: "top bottom-=100",
+      toggleActions: "play none none reverse"
+    },
+    y: 50,
+    opacity: 0,
+    duration: 1,
+    ease: "power3.out"
+  });
+</script>

@@ -1,24 +1,29 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import EventManager from '../components/event/EventManager.astro';
-import Gallery from '../components/event/Gallery.astro';
-import Lightbox from '../components/event/Lightbox.astro';
-import Section from '../components/ui/Section.astro';
-import { getTitle } from '../utils/title-manager';
-import { getLangFromRequest, useTranslations } from '../i18n/utils';
+import Layout from '../../layouts/Layout.astro';
+import EventManager from '../../components/event/EventManager.astro';
+import Gallery from '../../components/event/Gallery.astro';
+import Lightbox from '../../components/event/Lightbox.astro';
+import { getTitle } from '../../utils/title-manager';
+import { getLangFromRequest, useTranslations } from '../../i18n/utils';
+import PageHeader from '../../components/ui/PageHeader.astro';
 
-const lang = getLangFromRequest(Astro);
+export async function getStaticPaths() {
+  return [
+    { params: { lang: undefined } },
+    { params: { lang: 'en' } },
+  ];
+}
+
+const lang = getLangFromRequest(Astro as any);
 const t = useTranslations(lang);
 ---
 
 <Layout title={getTitle('event')}>
   <!-- Header -->
-  <Section bg="surface" class="pt-20 pb-12 text-center">
-    <h1 class="text-4xl lg:text-5xl font-headings font-bold text-secondary-trust mb-4 animate-fade-in">{t('event.title')}</h1>
-    <p class="text-gray-600 max-w-2xl mx-auto text-lg animate-fade-in delay-100">
-      {t('event.desc')}
-    </p>
-  </Section>
+  <PageHeader 
+    title={t('event.title')} 
+    description={t('event.desc')} 
+  />
 
   <EventManager />
   <Gallery />
@@ -30,19 +35,6 @@ const t = useTranslations(lang);
   import { ScrollTrigger } from "gsap/ScrollTrigger";
   
   gsap.registerPlugin(ScrollTrigger);
-
-  // Header Animation
-  const fadeInElements = document.querySelectorAll(".animate-fade-in");
-  if (fadeInElements.length > 0) {
-    gsap.from(fadeInElements, {
-      y: 30,
-      opacity: 0,
-      duration: 1,
-      stagger: 0.2,
-      ease: "power3.out",
-      clearProps: "all" // Clear properties after animation to prevent issues
-    });
-  }
 
   // Event Cards - Use individual triggers for smoother scroll experience
   const cards = gsap.utils.toArray(".event-card");

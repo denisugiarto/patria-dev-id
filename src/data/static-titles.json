@@ -26,8 +26,20 @@
   {
     "id": "about",
     "text": {
-      "id": "Tentang & Kontak | Patria Dev Community",
-      "en": "About & Contact | Patria Dev Community"
+      "id": "Tentang | Patria Dev Community",
+      "en": "About | Patria Dev Community"
+    },
+    "metadata": {
+      "createdAt": "2025-01-04T00:00:00Z",
+      "updatedAt": "2025-01-04T00:00:00Z",
+      "author": "System"
+    }
+  },
+  {
+    "id": "contact",
+    "text": {
+      "id": "Kontak | Patria Dev Community",
+      "en": "Contact | Patria Dev Community"
     },
     "metadata": {
       "createdAt": "2025-01-04T00:00:00Z",
@@ -35,4 +47,5 @@
       "author": "System"
     }
   }
+
 ]

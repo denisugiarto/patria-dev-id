@@ -1,10 +1,17 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import Hero from '../components/home/Hero.astro';
-import Mission from '../components/home/Mission.astro';
-import Stats from '../components/home/Stats.astro';
-import UpcomingEvent from '../components/home/UpcomingEvent.astro';
-import { getTitle } from '../utils/title-manager';
+import Layout from '../../layouts/Layout.astro';
+import Hero from '../../components/home/Hero.astro';
+import Mission from '../../components/home/Mission.astro';
+import Stats from '../../components/home/Stats.astro';
+import UpcomingEvent from '../../components/home/UpcomingEvent.astro';
+import { getTitle } from '../../utils/title-manager';
+
+export async function getStaticPaths() {
+  return [
+    { params: { lang: undefined } },
+    { params: { lang: 'en' } },
+  ];
+}
 
 const pageTitle = getTitle('home');
 ---
