@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 @theme {
-  --color-primary: #21b7fc; /* Blue from logo */
+  --color-primary: #4255a7; /* Blue from logo */
   --color-primary-light: #64dfff; /* Lighter blue */
   --color-secondary-trust: #152960; /* Dark Blue from logo */
   --color-accent-joy: #FFC107; /* Yellow/Gold accent */
