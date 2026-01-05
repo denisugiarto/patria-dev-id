@@ -3,6 +3,7 @@ import { events, pastEvents } from '../../data/events';
 import Section from '../ui/Section.astro';
 import { getLangFromRequest, useTranslations } from '../../i18n/utils';
 import { Image } from 'astro:assets';
+import Button from '../ui/Button.astro';
 
 const lang = getLangFromRequest(Astro);
 const t = useTranslations(lang);
@@ -110,16 +111,16 @@ const eventTypes = ['Meetup', 'Workshop', 'WFC', 'Hackathon', 'Webinar'];
           <div class="w-full md:w-auto mt-4 md:mt-0">
             {event.isPast ? (
                <span class="inline-flex items-center px-4 py-2 rounded-full border border-gray-200 text-gray-400 font-medium text-sm">
-                 Completed
+                 {t('event.completed')}
                </span>
             ) : (
-              <button class={`w-full md:w-auto px-6 py-2 rounded-full font-bold text-sm transition-all ${
-                event.status === 'Open' 
-                  ? 'bg-primary text-white hover:bg-primary-light shadow-lg shadow-primary/20 transform hover:-translate-y-0.5' 
-                  : 'bg-gray-100 text-gray-400 cursor-not-allowed'
-              }`}>
+              <Button 
+                size="sm"
+                disabled={event.status !== 'Open'}
+                class="w-full md:w-auto"
+              >
                 {event.status === 'Open' ? t('event.register') : t('event.soon')}
-              </button>
+              </Button>
             )}
           </div>
         </div>
@@ -138,9 +139,9 @@ const eventTypes = ['Meetup', 'Workshop', 'WFC', 'Hackathon', 'Webinar'];
 
     <!-- Pagination / Load More (Mock) -->
     <div class="text-center pt-8 hidden" id="load-more-container">
-      <button class="px-8 py-3 bg-white border border-gray-200 text-gray-600 rounded-full font-bold text-sm hover:bg-gray-50 hover:text-primary transition-colors">
+      <Button variant="outline">
         {t('event.load_more')}
-      </button>
+      </Button>
     </div>
   </div>
 </Section>
