@@ -1,46 +1,38 @@
-# Astro Starter Kit: Basics
+# 🇮🇩 Patria Dev Org
 
-```sh
-npm create astro@latest -- --template basics
-```
+Selamat datang di repositori **Patria Dev Org** 🎉  
+Repositori ini berisi source code website komunitas untuk organisasi **Patria Developer**.
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+Website ini dibangun sebagai pusat informasi, dokumentasi, dan showcase aktivitas serta proyek komunitas Patria Developer.
 
-## 🚀 Project Structure
+---
 
-Inside of your Astro project, you'll see the following folders and files:
+## 🚀 Tech Stack
+
+- ⚡ [Astro](https://astro.build/)
+- 🟦 TypeScript
+- 🎨 Modern Frontend Tools
+
+---
+
+## 📌 Fitur
+
+- Website komunitas yang ringan dan cepat
+- Struktur project yang rapi dan mudah dikembangkan
+- Komponen reusable
+- Siap untuk deployment ke platform hosting modern (contoh: Vercel)
+
+---
+
+## 🧱 Struktur Project
 
 ```text
-/
-├── public/
-│   └── favicon.svg
-├── src
-│   ├── assets
-│   │   └── astro.svg
-│   ├── components
-│   │   └── Welcome.astro
-│   ├── layouts
-│   │   └── Layout.astro
-│   └── pages
-│       └── index.astro
-└── package.json
-```
-
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
-
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+public/               # Aset publik (gambar, favicon, dll)
+src/
+├── assets/            # Aset internal
+├── components/        # Komponen UI
+├── layouts/           # Layout halaman
+├── pages/             # Halaman website
+package.json           # Dependencies & scripts
+astro.config.mjs       # Konfigurasi Astro
+README.md              # Dokumentasi project
