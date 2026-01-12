@@ -12,6 +12,7 @@ Website ini dibangun sebagai pusat informasi, dokumentasi, dan showcase aktivita
 - ⚡ [Astro](https://astro.build/)
 - 🟦 TypeScript
 - 🎨 Modern Frontend Tools
+- Sanity CMS
 
 ---
 
