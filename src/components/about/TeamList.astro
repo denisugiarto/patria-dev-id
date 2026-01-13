@@ -1,18 +1,20 @@
 ---
-import { getLangFromUrl } from '../../i18n/utils';
-import { getTeamMembers } from '../../utils/sanity';
-import Section from '../ui/Section.astro';
+import { getLangFromUrl } from '../../i18n/utils'
+import { getTeamMembers } from '../../utils/sanity'
+import Section from '../ui/Section.astro'
 
 const lang = getLangFromUrl(Astro.url)
 
-const teamMembers = await getTeamMembers(lang);
+const teamMembers = await getTeamMembers(lang)
 ---
 
 <Section id='team' bg='background' class='overflow-hidden py-20'>
   <div class='grid md:grid-cols-2 lg:grid-cols-4 gap-8'>
     {
-      teamMembers.map((member, i) => (
-        <div class='team-card bg-white rounded-2xl p-6 text-center shadow-sm border border-gray-100 hover:shadow-lg transition-all duration-300 group'>
+      teamMembers.map((member) => (
+        <div
+          class='team-card bg-white rounded-2xl p-6 text-center shadow-sm border border-gray-100 hover:shadow-lg transition-all duration-300 group'
+        >
           <div class='w-32 h-32 mx-auto mb-6 rounded-full bg-primary/10 p-1 overflow-hidden relative'>
             <div class='absolute inset-0 bg-primary/20 rounded-full scale-0 group-hover:scale-100 transition-transform duration-300' />
             <img
@@ -24,11 +26,8 @@ const teamMembers = await getTeamMembers(lang);
           <h3 class='text-xl font-bold text-secondary-trust mb-1'>
             {member.name}
           </h3>
-          <p class='text-primary font-medium text-sm mb-3'>
-            {member.role}
-          </p>
+          <p class='text-primary font-medium text-sm mb-3'>{member.role}</p>
           <p class='text-gray-500 text-sm'>{member.bio}</p>
-          
         </div>
       ))
     }

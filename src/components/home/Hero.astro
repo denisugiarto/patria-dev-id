@@ -7,7 +7,6 @@ import Button from '../ui/Button.astro'
 const lang = getLangFromUrl(Astro.url)
 const t = useTranslations(lang)
 const hero = await getHero(lang)
-console.log(hero)
 ---
 
 <section

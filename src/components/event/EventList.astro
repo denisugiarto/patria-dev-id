@@ -10,7 +10,7 @@ const t = useTranslations(lang);
 
 <Section id="calendar" bg="background" class="py-16">
   <div class="max-w-4xl mx-auto space-y-6">
-    {events.map((event, index) => (
+    {events.map((event) => (
       <div class="event-card bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow duration-300 flex flex-col md:flex-row gap-6 items-start md:items-center">
         <div class="md:w-1/4 text-center md:text-left">
           <div class="text-primary font-bold text-xl mb-1">{event.date}</div>

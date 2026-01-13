@@ -9,6 +9,8 @@ export async function getStaticPaths() {
   return [{ params: { lang: undefined } }, { params: { lang: 'en' } }]
 }
 
+export const prerender = true
+
 const lang = getLangFromUrl(Astro.url)
 const t = useTranslations(lang)
 const pageTitle = await getPageTitle('about', lang)

@@ -213,7 +213,6 @@ export async function getUpcomingEvents(
   }`
 
   try {
-    // console.log('Fetching upcoming events with filter:', filter);
     return await sanityClient.fetch(query)
   } catch (error) {
     console.warn('Error fetching upcoming events from Sanity:', error)
@@ -271,7 +270,6 @@ export async function getPastEvents(
   }`
 
   try {
-    // console.log('Fetching past events with filter:', filter);
     return await sanityClient.fetch(query)
   } catch (error) {
     console.warn('Error fetching past events from Sanity:', error)
